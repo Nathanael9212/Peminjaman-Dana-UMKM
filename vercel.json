@@ -21,7 +21,7 @@
       "LOG_CHANNEL": "stderr",
       "SESSION_DRIVER": "cookie"
     },
-    "buildCommand": "composer install --no-dev --optimize-autoloader && php artisan config:cache && php artisan route:cache",
-    "installCommand": "npm install && npm run build"
+    "buildCommand": "npm install && npm run build",
+    "outputDirectory": "public/build"
   }
   
