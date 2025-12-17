@@ -1,24 +1,18 @@
 <?php
 
-// Ensure bootstrap/cache directory exists and is writable
+// Create bootstrap/cache directory if not exists
 $cacheDir = __DIR__ . '/../bootstrap/cache';
 if (!is_dir($cacheDir)) {
-    mkdir($cacheDir, 0755, true);
+    @mkdir($cacheDir, 0755, true);
 }
 
-// Clear any cached config/routes/views in serverless environment
-if (file_exists($cacheDir . '/config.php')) {
-    unlink($cacheDir . '/config.php');
+// Remove all cached files to prevent binding errors
+$files = glob($cacheDir . '/*.php');
+if ($files) {
+    foreach ($files as $file) {
+        @unlink($file);
+    }
 }
-if (file_exists($cacheDir . '/routes-v7.php')) {
-    unlink($cacheDir . '/routes-v7.php');
-}
-if (file_exists($cacheDir . '/services.php')) {
-    unlink($cacheDir . '/services.php');
-}
-
-// Set permissions for serverless
-@chmod($cacheDir, 0755);
 
 // Forward to Laravel
 require __DIR__ . '/../public/index.php';
